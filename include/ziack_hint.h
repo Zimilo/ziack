@@ -24,6 +24,9 @@ ziack_hint_value_destroy(ziack_hint_value_t *hint);
 ziack_hint_version_t *
 ziack_hint_version_create();
 
+ziack_rc_t
+ziack_hint_version_destroy(ziack_hint_version_t *version);
+
 void
 ziack_hint_value_free_func(void *v);
 
@@ -50,6 +53,12 @@ ziack_hint_version_t *
 ziack_hint_lookup_version(ziack_hint_t      *hint,
 			  ziack_hint_key_t  *key,
 			  ziack_size_t       vidx);
+
+ziack_rc_t
+ziack_hint_update_version(ziack_hint_t         *hint,
+			  ziack_hint_key_t     *key,
+			  ziack_size_t          vidx,
+			  ziack_hint_version_t *new_version);
 
 ziack_rc_t
 ziack_hint_add(ziack_hint_t       *hint,

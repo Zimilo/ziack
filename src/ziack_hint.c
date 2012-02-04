@@ -61,6 +61,13 @@ ziack_hint_version_create()
   return (version != NULL) ? version : NULL;
 }
 
+ziack_rc_t
+ziack_hint_version_destroy(ziack_hint_version_t *version)
+{
+  ziack_free(version);
+  return ZIACK_RC_OK;
+}
+
 ziack_hint_t *
 ziack_hint_create(ziack_flag_t flags)
 {
@@ -188,12 +195,30 @@ ziack_hint_lookup_version(ziack_hint_t     *hint,
 			  ziack_size_t      vidx)
 {
   ziack_hint_value_t *v = ziack_hint_lookup(hint, key);
-  if (v == NULL) return NULL;
+  if (NULL == v) return NULL;
   ziack_size_t count = ziack_vector_count(v->versions);
-  if (count == 0 || (vidx >= v->base + count) || vidx < v->base) return NULL;
+  if (0 == count || (vidx >= v->base + count) || vidx < v->base) return NULL;
   ziack_vector_t *versions = v->versions;
   return ziack_vector_index(versions, vidx - v->base);
 }
+
+ziack_rc_t
+ziack_hint_update_version(ziack_hint_t         *hint,
+			  ziack_hint_key_t     *key,
+			  ziack_size_t          vidx,
+			  ziack_hint_version_t *new_version)
+{
+  ziack_hint_value_t *v = ziack_hint_lookup(hint, key);
+  if (NULL == v) return ZIACK_RC_NOT_FOUND;
+  ziack_size_t count = ziack_vector_count(v->versions);
+  if (0 == count || (vidx >= v->base + count) || vidx < v->base) return ZIACK_RC_INDEX_OVERFLOW;
+  ziack_hint_version_t *version = ziack_vector_update(v->versions, vidx - v->base, new_version);
+  if (version != NULL) {
+    ziack_hint_version_destroy(version);
+  }
+  return ZIACK_RC_OK;
+}
+
 
 ziack_rc_t
 ziack_hint_add(ziack_hint_t       *hint,
@@ -319,6 +344,7 @@ main(int argc, char **argv)
   ziack_hint_dump_to_file(hint, "./hints");
 
   ziack_hint_destroy(hint);
+
   hint = ziack_hint_create_from_file("./hints", 0);
 
   v = ziack_hint_lookup_version(hint, key, 0);
@@ -340,5 +366,7 @@ main(int argc, char **argv)
 
   ziack_hint_key_destroy(key);
   ziack_hint_destroy(hint);
+  
+  return EXIT_SUCCESS;
 }
 #endif 

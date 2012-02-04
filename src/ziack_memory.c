@@ -21,6 +21,7 @@ void
 ziack_free(void *ptr)
 {
   free(ptr);
+  ptr = NULL;
 }
 
 void *

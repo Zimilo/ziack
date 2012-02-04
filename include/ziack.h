@@ -7,9 +7,7 @@
 
 #include "ziack_config.h"
 #include "ziack_version.h"
-#include "ziack_api.h"
 #include "ziack_types.h"
-
-
+#include "ziack_api.h"
 
 #endif // !__ZIACK_H__

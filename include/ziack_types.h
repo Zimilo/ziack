@@ -61,9 +61,9 @@ typedef struct __ZIACK_VECTOR {
 typedef struct __ZIACK_HINT_VERSION {
   ziack_flag_t flags; 
   uint64_t     ts;
-  uint32_t     fidx;
+  ziack_size_t fidx;
   uint64_t     offset; 
-  uint32_t     size;
+  ziack_size_t size;
 } ziack_hint_version_t;
 
 typedef struct __ZIACK_HINT_VALUE {
@@ -79,5 +79,15 @@ typedef struct __ZIACK_HINT_KEY {
   ziack_size_t  key_size;
   char          key[0];
 } ziack_hint_key_t;
+
+typedef struct __ZIACK_FILE {
+  int fd;
+} ziack_file_t;
+
+typedef struct __ZIACK_RUNTIME {
+  ziack_hint_t   *hint;
+  ziack_file_t   *active_file;
+  ziack_vector_t *old_files;
+} ziack_runtime_t;
 
 #endif // __ZIACK_HINT_TYPES_H__
