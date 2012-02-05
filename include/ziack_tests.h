@@ -4,7 +4,7 @@
 #include "ziack_config.h"
 #include <assert.h>
 
-#ifdef ZIACK_DEBUG
+#ifndef ZIACK_DEBUG
 #define ziack_assert(e) ((void)0)
 #else
 #define ziack_assert(exp) (assert((exp)))

@@ -1,3 +1,7 @@
+/*
+ * zimilo@code-trick.com
+ */
+
 #include "ziack_log.h"
 #include "ziack_memory.h"
 #include "ziack_tests.h"
@@ -89,7 +93,7 @@ ziack_log_close(ziack_log_t *log)
   ziack_free(log);
 }
 
-#if 0
+#if 1
 int 
 main(void)
 {

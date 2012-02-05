@@ -80,10 +80,6 @@ typedef struct __ZIACK_HINT_KEY {
   char          key[0];
 } ziack_hint_key_t;
 
-typedef struct __ZIACK_FILE {
-  int fd;
-} ziack_file_t;
-
 typedef struct __ZIACK_RUNTIME {
   ziack_hint_t   *hint;
   ziack_file_t   *active_file;

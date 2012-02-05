@@ -7,6 +7,9 @@
 #include <inttypes.h>
 #include <string.h>
 
+#define ZIACK_DEBUG
+#define ZIACK_MEM_DEBUG
+
 #define _FILE_OFFSET_BITS 64
 
 typedef uint32_t ziack_size_t;
@@ -22,6 +25,9 @@ typedef enum __ZIACK_RC {
   ZIACK_RC_FILE_ERROR,
   ZIACK_RC_ITER_GUARDER,
   ZIACK_RC_INDEX_OVERFLOW,
+  ZIACK_RC_FILE_WRITE_ERROR,
+  ZIACK_RC_FILE_READ_ERROR,
+  ZIACK_RC_FILE_OVERFLOW_OFFSET,
 } ziack_rc_t;
 
 typedef enum __ZIACK_BOOL {
