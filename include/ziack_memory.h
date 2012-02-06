@@ -22,4 +22,9 @@ void *
 ziack_realloc(void *ptr,
 	      size_t size);
 
+#ifdef ZIACK_MEM_DEBUG
+size_t
+ziack_malloc_size(void *ptr);
+#endif
+
 #endif // __ZIACK_MEMORY_H__

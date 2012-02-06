@@ -58,6 +58,11 @@ typedef struct __ZIACK_VECTOR {
   void       **data;
 } ziack_vector_t;
 
+typedef struct __ZIACK_VECTOR_ITER {
+  ziack_vector_t *vec;
+  ziack_size_t    idx;
+} ziack_vector_iter_t;
+
 typedef struct __ZIACK_HINT_VERSION {
   ziack_flag_t flags; 
   uint64_t     ts;
@@ -82,8 +87,9 @@ typedef struct __ZIACK_HINT_KEY {
 
 typedef struct __ZIACK_RUNTIME {
   ziack_hint_t   *hint;
-  ziack_file_t   *active_file;
+  //ziack_file_t   *active_file;
   ziack_vector_t *old_files;
+  //ziack_log_t    *log;
 } ziack_runtime_t;
 
 #endif // __ZIACK_HINT_TYPES_H__

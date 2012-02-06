@@ -14,6 +14,7 @@ ziack_malloc(size_t size)
 {
 #ifdef ZIACK_MEM_DEBUG
   void *ptr = calloc(1, size + 8 + sizeof(size_t));
+  if (NULL == ptr) return NULL;
   memcpy(ptr, &ziack_mem_magic_number, 4);
   memcpy(ptr + 4, &size, sizeof(size));
   memcpy(ptr + size + 8 + sizeof(size_t) - 4, &ziack_mem_magic_number, 4);
@@ -41,7 +42,7 @@ ziack_free(void *ptr)
   void *p = ptr - 4 - sizeof(size_t);
   ziack_assert(*((uint32_t *)p) == ziack_mem_magic_number);
   size_t size = *((size_t *)(p + 4));
-  ziack_assert(*((uint32_t *)(p + 8 + sizeof(size_t) + size - 4)) == ziack_mem_magic_number);
+  ziack_assert(*((uint32_t *)(p + 4 + sizeof(size_t) + size)) == ziack_mem_magic_number);
   free(p);
   p = NULL;
 #else
@@ -55,10 +56,19 @@ ziack_realloc(void *ptr,
 	      size_t size)
 {
 #ifdef ZIACK_MEM_DEBUG
-  void *p = realloc(ptr, size + 12 + 4);
-  memcpy(p + size + 8 + sizeof(size_t) + 4 - 4, &ziack_mem_magic_number, 4);
-  return p;
+  void *p = realloc(ptr - 4 - sizeof(size_t), 4 + sizeof(size_t) + size + 4);
+  memcpy(p + 4, &size, sizeof(size));
+  memcpy(p + 4 + sizeof(size_t) + size, &ziack_mem_magic_number, 4);
+  return p + 4 + sizeof(size_t);
 #else
   return realloc(ptr, size);
 #endif
 }
+
+#ifdef ZIACK_MEM_DEBUG
+size_t
+ziack_malloc_size(void *ptr)
+{
+  return (*(size_t *)(ptr - sizeof(size_t)));
+}
+#endif

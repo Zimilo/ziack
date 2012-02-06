@@ -62,7 +62,11 @@ ziack_vector_expand(ziack_vector_t *vec,
 		    ziack_size_t    size)
 {
   if (size <= vec->capacity) return ZIACK_RC_OK;
-  vec->data = (void **)ziack_realloc(vec->data, size * sizeof(char *));
+  if (vec->data == NULL) {
+    vec->data = (void **)ziack_calloc(1, size * sizeof(char *));
+  } else {
+    vec->data = (void **)ziack_realloc(vec->data, size * sizeof(char *));
+  }
   memset(&(vec->data[vec->capacity]), 0, (size - vec->capacity) * sizeof(char *));
   vec->capacity = size;
   return ZIACK_RC_OK;
