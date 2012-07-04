@@ -7,7 +7,7 @@ ziack_vector_create(ziack_size_t count)
 {
   ziack_vector_t *vec = (ziack_vector_t *)ziack_calloc(1, sizeof(ziack_vector_t));
   if (NULL == vec) return NULL;
-  vec->count = count;
+  vec->count = 0;
   if (count == 0) {
     vec->data = NULL;
   } else {
